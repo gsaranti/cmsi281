@@ -232,7 +232,7 @@ public class LinkedDeque{
     	if(test.left().equals("hi")){
     		System.out.println("true");
     	} else {
-    		System.out.println("fasle");
+    		System.out.println("false");
     	}
 
     	LinkedDeque test2 = new LinkedDeque();
@@ -242,7 +242,7 @@ public class LinkedDeque{
     	if(test2.left().equals("lit")){
     		System.out.println("true");
     	} else {
-    		System.out.println("fasle");
+    		System.out.println("false");
     	}
     }
 
@@ -261,7 +261,7 @@ public class LinkedDeque{
     	if(test.right().equals("happy")){
     		System.out.println("true");
     	} else {
-    		System.out.println("fasle");
+    		System.out.println("false");
     	}
 
     	LinkedDeque test2 = new LinkedDeque();
@@ -271,7 +271,7 @@ public class LinkedDeque{
     	if(test.right().equals("big")){
     		System.out.println("true");
     	} else {
-    		System.out.println("fasle");
+    		System.out.println("false");
     	}
     }
 
