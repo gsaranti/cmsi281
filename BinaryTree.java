@@ -4,14 +4,10 @@ import java.util.*;
 
 public class BinaryTree implements Iterable{
 
-	private static int attempts = 0;
-    private static int successes = 0;
-
 	public Node root;
 	public int size;
 	public Node cursor;
 
-	
 	public BinaryTree(){
 		root = null;
 		this.cursor = this.root;
@@ -25,43 +21,51 @@ public class BinaryTree implements Iterable{
 	}
 
 	public boolean contains(Object obj){
-		if(root == null){
+		for(Object a : this){
+			if(a == obj) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean findSimilar(Node thisNode, Node similarNode){
+		if(thisNode == null && similarNode == null){
+			return true;
+		}
+
+		if((thisNode == null && similarNode != null) || (thisNode != null && similarNode == null)){
 			return false;
 		}
-		return true;
+
+		return findSimilar(thisNode.leftSon, similarNode.leftSon) && (findSimilar(thisNode.rightSon, similarNode.rightSon));
 	}
 
 	public boolean similar(Object obj){
-		if((!(obj instanceof BinaryTree)) || ((BinaryTree)obj).size() != this.size()){
-			return false;
-		}
-
-		Iterator justNodeIterator1 = this.justNodeIterator();
-		Iterator justNodeIterator2 = ((BinaryTree)obj).justNodeIterator();
-		while(justNodeIterator1.hasNext()){
-			if((justNodeIterator1.next() == null && justNodeIterator1.next() != justNodeIterator2.next()) || (!(justNodeIterator1.next().equals(justNodeIterator2)))){
-				return false;
-			}
-		}
-		return true;
+		return findSimilar(this.root, ((BinaryTree)obj).root);
 	}
+
 
 	public boolean equals(Object obj){
 		if((!(obj instanceof BinaryTree)) || ((BinaryTree)obj).size() != this.size()){
 			return false;
 		}
 
-		Iterator preOrderIterator1 = this.iterator();
-		Iterator preOrderIterator2 = ((BinaryTree)obj).iterator();
-		while(preOrderIterator1.hasNext()){
-			if((preOrderIterator1.next() == null && preOrderIterator1.next() != preOrderIterator2.next()) || (!(preOrderIterator1.next().equals(preOrderIterator2)))){
+		Iterator PREORDERITERATOR1 = this.iterator();
+		Iterator PREORDERITERATOR2 = ((BinaryTree)obj).iterator();
+		while(PREORDERITERATOR1.hasNext()){
+			Object preIt1 = PREORDERITERATOR1.next();
+			Object preIt2 = PREORDERITERATOR2.next();
+			if((preIt1 == null && preIt1 != preIt2) || (!(preIt1.equals(preIt2)))){
 				return false;
 			}
 		}
-		Iterator inOrderIterator1 = this.inOrder();
-		Iterator inOrderIterator2 = ((BinaryTree)obj).inOrder();
-		while(inOrderIterator1.hasNext()){
-			if((inOrderIterator1.next() == null && inOrderIterator1.next() != inOrderIterator2.next()) || (!(inOrderIterator1.next().equals(inOrderIterator2)))) {
+		Iterator INORDERITERATOR1 = this.inOrder();
+		Iterator INORDERITERATOR2 = ((BinaryTree)obj).inOrder();
+		while(INORDERITERATOR1.hasNext()){
+			Object inIt1 = INORDERITERATOR1.next();
+			Object inIt2 = INORDERITERATOR2.next();
+			if((inIt1 == null && inIt1 != inIt2) || (!(inIt1.equals(inIt2)))) {
 				return false;
 			}
 		}
@@ -85,52 +89,6 @@ public class BinaryTree implements Iterable{
 
 	public Iterator iterator(){
 		return new PreOrderIterator(this);
-	}
-
-	public Iterator justNodeIterator(){
-		return new JustNodeIterator(this);
-	}
-
-	public class JustNodeIterator implements Iterator{
-		
-		Stack<Node> justNodeStack = new Stack<Node>();
-		Node next;
-		
-		private JustNodeIterator (BinaryTree c){
-			next = c.root;
-		}
-
-		public boolean hasNext(){
-			if(next != null){
-				return true;
-			}
-			return false;
-		}
-
-		public Object next(){
-
-			Node tempPoint = next; 
-
-			if(next.leftSon != null && next.rightSon != null){
-				justNodeStack.push(next);
-				next = next.leftSon;
-			} else if(next.leftSon == null && next.rightSon != null){
-				next = next.rightSon;
-			} else if(next.leftSon != null && next.rightSon == null){
-				next = next.leftSon;
-			} else {
-				if(!(justNodeStack.empty())) {
-					next = (Node) justNodeStack.pop().rightSon;
-				} else {
-					next = null;
-				}
-			}
-			return tempPoint;
-		}
-
-		public void remove(){
-			throw new UnsupportedOperationException();
-		}
 	}
 
 	public class PreOrderIterator implements Iterator{
