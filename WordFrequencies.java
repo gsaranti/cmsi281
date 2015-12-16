@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.*;
 import java.io.*;
 
@@ -12,25 +14,30 @@ public class WordFrequencies {
 
 	public static void main(String[] args) throws Exception {
 
-		boolean caseSensitive = false;
-		boolean clean = false;
+
 		BufferedReader txtFile = new BufferedReader(new InputStreamReader(System.in));
 		HashMap<String, Integer> map = new HashMap<>();
 		String a = " ";
-		String[] words = txtFile.readLine().split(a);
+		String[] words = txtFile.readLine().replaceAll("[^a-zA-Z0-9\\-]", " ").split(a);
 		
 		for(String word : words){
+			if(word.length() == 0){
+				continue;
+			}
+			word = word.toUpperCase();
 			Integer f = map.get(word);
 			if(f == null){
 				map.put(word, 1);
 			} else {
 				map.put(word, f+1);
-			}
+			} 
 		}
-		System.out.println(map);
 
-		TreeMap<String, Integer> treeMap = new TreeMap<String, Integer>();
-		treeMap.putAll(map);
-		System.out.print(treeMap);
+		ArrayList<String> aL = new ArrayList<String>(map.keySet());
+		Collections.sort(aL);
+
+		for(String str : aL){
+			System.out.println(str + " " + map.get(str));
+		}
     }
 }
