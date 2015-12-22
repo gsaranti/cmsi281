@@ -6,3 +6,5 @@ LinkedDeque: 31/35
 
 Binary Tree: 32.5/45
  * Late submission
+
+WordFrequencies: 33/35
